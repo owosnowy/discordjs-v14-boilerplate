@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits, CommandInteraction, Collection, ActivityType } from 'discord.js';
+import { Client, Events, CommandInteraction, Collection, ActivityType, Presence, type PresenceData, type PresenceStatusData } from 'discord.js';
 import fg from 'fast-glob';
 import type Command from '../interfaces/command';
 import { activity } from "../config.json" 
@@ -14,8 +14,9 @@ class Bot extends Client {
               activities: [{
                 name: activity.name,
                 type: ActivityType[activity.type as keyof typeof ActivityType],
+                url: activity.url
               }],
-              status: 'dnd'
+              status: activity.status as PresenceStatusData
             })
             const commandFiles: string[] = await fg(
                 `${__dirname.replace(/\\/g, '/')}/../commands/**/*{.ts,.js}`
